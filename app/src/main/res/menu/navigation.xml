@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/main_page"
+        android:icon="@drawable/ic_main_page"
+        android:title="" />
+    <item android:id="@+id/my_declarations"
+        android:icon="@drawable/ic_my_declarations"
+        android:title="" />
+    <item android:id="@+id/add_element_placeholder"
+        android:title="" />
+    <item android:id="@+id/liked"
+        android:icon="@drawable/ic_liked"
+        android:title="" />
+    <item android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="" />
+</menu>

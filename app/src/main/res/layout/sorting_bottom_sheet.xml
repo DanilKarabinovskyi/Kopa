@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#505051"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="21dp"
+    android:clickable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    tools:context=".BottomNavBarActivity"
+    android:focusable="true">
+
+    <LinearLayout
+
+        android:id="@+id/sheet_image_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="26dp">
+        <ImageView
+            android:id="@+id/sheet_image"
+            android:layout_width="130dp"
+            android:layout_height="26dp"
+            android:src="@drawable/ic_line_bottom_sheet"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/model_name"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_small_blue_circle" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/model_text"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:text="Модель"
+            android:textSize="15dp" />
+    </LinearLayout>
+
+<!--    <TextView-->
+<!--        android:id="@+id/model_inputt"-->
+<!--        android:layout_width="303dp"-->
+<!--        android:layout_height="40dp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:paddingStart="15dp"-->
+<!--        android:textColor="@color/white" />-->
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/model_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingStart="15dp"
+        android:focusable="false"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+<!--    <View-->
+<!--        android:id="@+id/divider2"-->
+<!--        android:paddingStart="15dp"-->
+<!--        android:layout_marginLeft="20dp"-->
+<!--        android:layout_marginRight="20dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="2dp"-->
+<!--        android:background="#000000" />-->
+
+    <LinearLayout
+        android:id="@+id/material_name"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_small_blue_circle" />
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/material_text"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:text="Матеріал"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/material_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingStart="15dp"
+        android:focusable="false"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <LinearLayout
+    android:id="@+id/size_name"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_small_blue_circle" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/size_text"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:gravity="left"
+        android:textColor="#FFFFFF"
+        android:text="Розмір"
+        android:textSize="15dp" />
+</LinearLayout>
+   <LinearLayout
+        android:id="@+id/size_inputs_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/size_input1"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingStart="15dp"
+        android:textSize="15dp"
+        android:focusable="false"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginBottom="10dp"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/size_input2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingStart="15dp"
+        android:textSize="15dp"
+        android:focusable="false"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginBottom="10dp"/>
+
+       <View
+           android:id="@+id/divider"
+           android:layout_width="match_parent"
+           android:layout_height="1dp"
+           android:layout_weight="1"
+           android:background="?android:attr/listDivider" />
+   </LinearLayout>
+
+    <LinearLayout
+    android:id="@+id/price_name"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_small_blue_circle" />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/price_text"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginStart="10dp"
+        android:gravity="left"
+        android:textColor="#FFFFFF"
+        android:text="Ціна"
+        android:textSize="15dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/price_inputs_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/price_input1"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="100"
+        android:paddingStart="15dp"
+        android:textSize="15dp"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginBottom="10dp"/>
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/price_input2"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="100"
+        android:paddingStart="15dp"
+        android:textSize="15dp"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/complete_buttons_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|right"
+        android:layout_marginRight="25dp">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:gravity="end"
+            android:textColor="#0CCDE6"
+            android:text="Скинути"
+            android:textSize="19dp"
+            android:layout_marginRight="25dp"
+            tools:ignore="RtlHardcoded" />
+        <TextView
+            android:id="@+id/apply_button"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="right"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Застосувати"
+            android:textColor="#0CCDE6"
+            android:textSize="19dp"
+            tools:ignore="RtlHardcoded" />
+    </LinearLayout>
+
+</LinearLayout>

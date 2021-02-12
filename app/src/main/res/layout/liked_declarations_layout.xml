@@ -1,0 +1,22 @@
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="likedDeclarationsViewModel"
+            type="com.example.kopa.fragments.liked_declarations.LikedDeclarationsFragmentViewModel" />
+    </data>
+    <LinearLayout
+        android:id="@+id/all_declarations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#232326"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/declarations_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</layout>

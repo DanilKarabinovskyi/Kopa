@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="declaration"
+            type="com.example.kopa.model.Declaration" />
+        <variable
+            name="clickListener"
+            type="com.example.kopa.fragments.adapters.DeclarationListener" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:onClick="@{() -> clickListener.onClick(declaration)}"
+        android:background="@drawable/borders"
+        >
+
+        <ImageView
+            android:id="@+id/image_view_photo"
+            android:layout_width="135dp"
+            android:layout_height="134dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/kopa_logo"
+            android:foreground="@drawable/image_borders"/>
+
+        <TextView
+            android:id="@+id/text_model"
+            android:layout_width="109dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="96dp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="8dp"
+            android:text="Розмір стопи:"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/text_size_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="84dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="176dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/ic_yellow_rectangle"
+            android:padding="5dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="#434343"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_size_size"
+            android:layout_width="53dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="11dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="8dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="#0CCDE6"
+            app:layout_constraintBottom_toTopOf="@+id/text_size_country"
+            app:layout_constraintEnd_toStartOf="@+id/text_size_lenght"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            tools:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/text_size_lenght"
+            android:layout_width="73dp"
+            android:layout_height="23dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@+id/text_size_weight"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/text_lenght"
+            app:layout_constraintTop_toBottomOf="@+id/text_model" />
+
+        <TextView
+            android:id="@+id/text_size_weight"
+            android:layout_width="70dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="177dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="20dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_size_country"
+            android:layout_width="44dp"
+            android:layout_height="17dp"
+            android:layout_marginStart="9dp"
+            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="8dp"
+            android:text="EU"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/text_material"
+            app:layout_constraintEnd_toStartOf="@+id/text_lenght"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo" />
+
+        <TextView
+            android:id="@+id/text_lenght"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="85dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="39dp"
+            android:text="Довжина / см"
+            android:textColor="@color/white"
+            android:textSize="11dp"
+            app:layout_constraintEnd_toStartOf="@+id/text_width"
+            app:layout_constraintHorizontal_bias="0.227"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toBottomOf="@+id/text_size_lenght" />
+
+        <TextView
+            android:id="@+id/text_width"
+            android:layout_width="72dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="176dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="Ширина / см"
+            android:textColor="@color/white"
+            android:textSize="11dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toBottomOf="@+id/text_size_weight" />
+
+        <TextView
+            android:id="@+id/text_material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="112dp"
+            android:layout_marginEnd="20dp"
+            android:text="Матеріал:"
+            android:textColor="#9A9A9A"
+            app:layout_constraintEnd_toStartOf="@+id/text_matheral_material"
+            app:layout_constraintHorizontal_bias="0.125"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_matheral_material"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="112dp"
+            android:text="TextView"
+            android:textColor="#9A9A9A"
+            app:layout_constraintStart_toEndOf="@+id/image_view_photo"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/like_image_view"
+            android:layout_width="29dp"
+            android:layout_height="27dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/price"
+            app:layout_constraintHorizontal_bias="0.019"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.065"
+            app:srcCompat="@drawable/ic_heart_white"
+            tools:ignore="VectorDrawableCompat" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
