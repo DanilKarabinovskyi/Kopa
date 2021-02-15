@@ -101,7 +101,7 @@
             android:layout_height="44dp"
             android:text="Вхід"
             android:textColor="@color/white"
-            android:textSize="32dp"
+            android:textSize="32sp"
             app:layout_constraintBottom_toBottomOf="@+id/login_bg"
             app:layout_constraintEnd_toEndOf="@+id/login_bg"
             app:layout_constraintHorizontal_bias="0.731"

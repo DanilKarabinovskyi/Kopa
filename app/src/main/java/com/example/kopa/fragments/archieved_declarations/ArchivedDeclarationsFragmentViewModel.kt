@@ -16,9 +16,7 @@ class ArchivedDeclarationsFragmentViewModel:ViewModel() {
         val user = Firebase.auth.currentUser
 
 
-        db.collection("declarations")
-                .whereEqualTo("id", userID)
-                .whereEqualTo("selled", true)
+        db.collection("archived_users_declarations").document(userID).collection("archived_declarations")
                 .get()
                 .addOnSuccessListener { result ->
                     declarations = mutableListOf()
@@ -37,6 +35,7 @@ class ArchivedDeclarationsFragmentViewModel:ViewModel() {
                             false,
                             false,
                             document.data["description"] as String,
+                            document.data["productId"] as String,
                             document.data["photoArray"] as MutableList<String>)
                         declarations.add(singleDeclaration)
                     }

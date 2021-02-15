@@ -17,14 +17,14 @@ class MainActivity : AppCompatActivity() {
             val signedOut = arguments!!["signedOut"].toString()
             if(signedOut == "true"){
                 this.replaceFragment(SplachScreenFragment("true"))
+            }else{
+                this.replaceFragment(SplachScreenFragment("false"))
             }
         }else{
             this.replaceFragment(SplachScreenFragment("false"))
         }
 
-
     }
-
     fun AppCompatActivity.replaceFragment(fragment: Fragment){
         val fragmentManager = supportFragmentManager
         val transaction = fragmentManager.beginTransaction()

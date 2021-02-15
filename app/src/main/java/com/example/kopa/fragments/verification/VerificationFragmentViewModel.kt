@@ -2,6 +2,7 @@ package com.example.kopa.fragments.verification
 
 import android.content.ContentValues
 import android.content.Context
+import android.service.controls.ControlsProviderService
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -22,6 +23,8 @@ import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.*
@@ -30,8 +33,10 @@ import java.util.concurrent.TimeUnit
 
 class VerificationFragmentViewModel(userId:String):ViewModel() {
     var auth = FirebaseAuth.getInstance()
+    var regex = "[0123456789]"
     lateinit var mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
     var verificationId = ""
+    var user= Firebase.auth.currentUser
     val db = Firebase.firestore
     val userID = userId
     private fun verificationCallbacks(
@@ -47,7 +52,7 @@ class VerificationFragmentViewModel(userId:String):ViewModel() {
     ) {
         mCallbacks = object: PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                signIn(credential, activity, inputCode, codeError, progress)
+                signIn(credential, activity, inputCode, codeError, progress,"0")
                 progress.visibility = View.INVISIBLE
             }
 
@@ -67,7 +72,7 @@ class VerificationFragmentViewModel(userId:String):ViewModel() {
                 goInSystem.visibility = View.VISIBLE
                 val manager: FragmentManager = activity.supportFragmentManager
                 val transaction: FragmentTransaction? = manager?.beginTransaction()
-                transaction!!.replace(R.id.fragment_container, CodeInputFragment(verificationId,userID))
+                transaction!!.replace(R.id.fragment_container, CodeInputFragment(verificationId,userID,inputTelephone.text.toString()))
                 transaction.commit()
             }
         }
@@ -92,7 +97,7 @@ class VerificationFragmentViewModel(userId:String):ViewModel() {
                         Log.d(StateSet.TAG, "signInWithCredential:success")
                         val manager: FragmentManager = activity.supportFragmentManager
                         val transaction: FragmentTransaction = manager.beginTransaction()
-                        transaction.replace(R.id.fragment_container, RegistrationInfoFragment(phoneNumber))
+                        transaction.replace(R.id.fragment_container, RegistrationInfoFragment(phoneNumber,"0"))
                         transaction.commit()
                     }else{
                         if(!phoneNumber.isBlank() && (phoneNumber.length > 10)) {
@@ -100,7 +105,6 @@ class VerificationFragmentViewModel(userId:String):ViewModel() {
                             verificationCallbacks(
                                     inputTelephone, inputCode,
                                     verifyButton, goInSystem, progress, context, telephoneError, codeError, activity)
-
                             PhoneAuthProvider.getInstance().verifyPhoneNumber(
                                     phoneNumber,
                                     60,
@@ -126,21 +130,59 @@ class VerificationFragmentViewModel(userId:String):ViewModel() {
         inputCode: TextInputEditText,
         codeError: TextView,
         progress: ProgressBar,
+        telephone: String
     ) {
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task: Task<AuthResult> ->
-                if (task.isSuccessful) {
-                    val manager: FragmentManager = activity.supportFragmentManager
-                    val transaction: FragmentTransaction? = manager?.beginTransaction()
-                    transaction!!.replace(R.id.fragment_container, RegistrationInfoFragment(
-                        userID))
-                    transaction.commit()
-                }
-            }.addOnFailureListener {
-                progress.visibility = View.INVISIBLE
-                codeError.visibility = View.VISIBLE
-                inputCode.setBackgroundResource(R.drawable.ic_input_bg_red)
-            }
+//        Log.d(ControlsProviderService.TAG, "${user!!.displayName}----------------------------User profile updated.")
+        if(user!= null){
+            var name = user!!.displayName
+            auth.signInWithCredential(credential)
+                    .addOnCompleteListener { task: Task<AuthResult> ->
+                        if (task.isSuccessful) {
+                            val profileUpdates = userProfileChangeRequest {
+                                if(name?.let { areContains(it) } == true){
+                                    displayName = name
+                                }else{
+                                    displayName = " "
+                                }
+
+                            }
+                            user!!.updateProfile(profileUpdates)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            Log.d(ControlsProviderService.TAG, "User profile updated.")
+                                            val manager: FragmentManager = activity.supportFragmentManager
+                                            val transaction: FragmentTransaction? = manager?.beginTransaction()
+                                            transaction!!.replace(R.id.fragment_container, RegistrationInfoFragment(
+                                                    userID,telephone))
+                                            transaction.commit()
+                                        }
+                                    }
+
+
+                        }
+                    }.addOnFailureListener {
+                        progress.visibility = View.INVISIBLE
+                        codeError.visibility = View.VISIBLE
+                        inputCode.setBackgroundResource(R.drawable.ic_input_bg_red)
+                    }
+        }else{
+            auth.signInWithCredential(credential)
+                    .addOnCompleteListener { task: Task<AuthResult> ->
+                        if (task.isSuccessful) {
+                            val manager: FragmentManager = activity.supportFragmentManager
+                            val transaction: FragmentTransaction? = manager?.beginTransaction()
+                            transaction!!.replace(R.id.fragment_container, RegistrationInfoFragment(
+                                    userID,telephone))
+                            transaction.commit()
+                        }
+                    }.addOnFailureListener {
+                        progress.visibility = View.INVISIBLE
+                        codeError.visibility = View.VISIBLE
+                        inputCode.setBackgroundResource(R.drawable.ic_input_bg_red)
+                    }
+        }
+
+
     }
 
     fun authenticate(
@@ -149,18 +191,22 @@ class VerificationFragmentViewModel(userId:String):ViewModel() {
         verificationID: String,
         codeError: TextView,
         progress: ProgressBar,
+        telephone:String
     ) {
 
         val verifyNumber = inputCode.text.toString()
         if(!verifyNumber.isBlank() && (verifyNumber.length == 6)) {
             val credential: PhoneAuthCredential =
                 PhoneAuthProvider.getCredential(verificationID, verifyNumber)
-            signIn(credential, activity, inputCode, codeError, progress)
+            signIn(credential, activity, inputCode, codeError, progress,telephone)
         }
         else{
             progress.visibility = View.INVISIBLE
             codeError.visibility = View.VISIBLE
             inputCode.setBackgroundResource(R.drawable.ic_input_bg_red)
         }
+    }
+    private fun areContains(mytext: String):Boolean{
+        return Regex(regex).find(mytext) == null
     }
 }

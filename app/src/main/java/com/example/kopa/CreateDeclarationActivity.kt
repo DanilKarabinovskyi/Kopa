@@ -22,10 +22,32 @@ class CreateDeclarationActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val arguments = intent.extras
-        val userID = arguments!!["userID"].toString()
+        val userID = arguments!!["id"].toString()
+        val productId = arguments!!["productId"].toString()
+        val type = arguments!!["type"].toString()
         binding = DataBindingUtil.setContentView(this, R.layout.create_declaration_activity)
         viewModel = ViewModelProvider(this).get(CreateDeclarationActivityViewModel::class.java)
         binding.createDeclarationViewModel = viewModel
+        if(type == "update"){
+            viewModel.initialize(productId,userID, listPhotoNumbers,
+                binding.sizePickerText,
+                binding.euText,
+                binding.sizeLengthText,
+                binding.sizeWidthText,
+                binding.modelInput,
+                binding.materialInput,
+                binding.descriptionInput,
+                binding.priceInput,
+                binding.selectPhoto1,
+                binding.selectPhoto2,
+                binding.selectPhoto3,
+                binding.selectPhoto4,
+                binding.selectPhoto5,
+                binding.selectPhoto6,
+                binding.selectPhoto7,
+                binding.selectPhoto8,
+                binding.cameraIcon)
+        }
         binding.backButton.setOnClickListener {
             val intent = Intent(this, BottomNavBarActivity::class.java)
             intent.putExtra("id", userID)
@@ -135,7 +157,9 @@ class CreateDeclarationActivity: AppCompatActivity() {
                 binding.selectPhoto7,
                 binding.selectPhoto8,
             this,
-                listPhotoLinks)
+                listPhotoLinks,
+                binding.errorCreatingDeclaration,
+                binding.progress)
         }
 
     }

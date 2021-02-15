@@ -41,16 +41,17 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="20dp"
             android:src="@drawable/ic_small_blue_circle" />
+
         <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/model_text"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
-            android:textColor="#FFFFFF"
             android:text="Модель"
-            android:textSize="15dp" />
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
     </LinearLayout>
 
 <!--    <TextView-->
@@ -94,16 +95,17 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginLeft="20dp"
             android:src="@drawable/ic_small_blue_circle" />
+
         <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/material_text"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:gravity="left"
-            android:textColor="#FFFFFF"
             android:text="Матеріал"
-            android:textSize="15dp" />
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
     </LinearLayout>
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/material_input"
@@ -129,16 +131,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_small_blue_circle" />
-    <TextView
-        android:layout_marginTop="10dp"
-        android:id="@+id/size_text"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:gravity="left"
-        android:textColor="#FFFFFF"
-        android:text="Розмір"
-        android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/size_text"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:text="Розмір"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
 </LinearLayout>
    <LinearLayout
         android:id="@+id/size_inputs_layout"
@@ -193,16 +196,17 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_small_blue_circle" />
-    <TextView
-        android:layout_marginTop="10dp"
-        android:id="@+id/price_text"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginStart="10dp"
-        android:gravity="left"
-        android:textColor="#FFFFFF"
-        android:text="Ціна"
-        android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/price_text"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="left"
+            android:text="Ціна"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/price_inputs_layout"
@@ -244,18 +248,20 @@
         android:layout_height="wrap_content"
         android:gravity="bottom|right"
         android:layout_marginRight="25dp">
+
         <TextView
-            android:layout_marginTop="10dp"
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-            android:gravity="end"
-            android:textColor="#0CCDE6"
-            android:text="Скинути"
-            android:textSize="19dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="25dp"
+            android:gravity="end"
+            android:text="Скинути"
+            android:textColor="#0CCDE6"
+            android:textSize="19sp"
             tools:ignore="RtlHardcoded" />
+
         <TextView
             android:id="@+id/apply_button"
             android:layout_width="wrap_content"
@@ -265,7 +271,7 @@
             android:layout_marginTop="10dp"
             android:text="Застосувати"
             android:textColor="#0CCDE6"
-            android:textSize="19dp"
+            android:textSize="19sp"
             tools:ignore="RtlHardcoded" />
     </LinearLayout>
 

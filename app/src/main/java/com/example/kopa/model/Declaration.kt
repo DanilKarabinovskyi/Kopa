@@ -12,5 +12,6 @@ data class Declaration (
         var liked: Boolean = false,
         var selled: Boolean = false,
         var description:String = "",
+        var productId:String = "",
         var photoArray: MutableList<String> = mutableListOf<String>()
 )

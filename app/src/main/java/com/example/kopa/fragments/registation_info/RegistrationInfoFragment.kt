@@ -14,11 +14,12 @@ import com.example.kopa.databinding.RegistrationInfoScreenLayoutBinding
 import com.example.kopa.fragments.verification.VerificationFragmentViewModel
 import com.example.kopa.fragments.verification.VerificationVewModelFactory
 
-class RegistrationInfoFragment( userId: String) : Fragment() {
+class RegistrationInfoFragment( userId: String,telephone:String) : Fragment() {
 
     private lateinit var binding: RegistrationInfoScreenLayoutBinding
     private lateinit var viewModel: RegistrationInfoFragmentViewModel
     private lateinit var viewModelFactory: RegistrationInfoViewModelFactory
+    val telephoneNumber = telephone
     val userID = userId
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +37,7 @@ class RegistrationInfoFragment( userId: String) : Fragment() {
 //        viewModel = ViewModelProvider(this).get(RegistrationInfoFragmentViewModel(userID)::class.java)
         binding.registrationInfoViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        viewModel.splitName(binding.nameInput,binding.surnameInput,binding.cityInput,binding.telephoneInput)
+        viewModel.splitName(binding.nameInput,binding.surnameInput,binding.cityInput,binding.telephoneInput,telephoneNumber)
         binding.endLoginButton.setOnClickListener {
             viewModel.saveData(
                 binding.nameInput,

@@ -1,35 +1,36 @@
 package com.example.kopa.activity_view_models
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Color.TRANSPARENT
 import android.net.Uri
 import android.os.Build
 import android.service.controls.ControlsProviderService
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
-import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.ViewModel
 import com.example.kopa.BottomNavBarActivity
 import com.example.kopa.CreateDeclarationActivity
-import com.example.kopa.R
-import com.example.kopa.databinding.ProfileLayoutBinding
+import com.example.kopa.image_slider_components.SlideModel
+import com.example.kopa.model.Declaration
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.w3c.dom.Text
 import java.util.*
 
 class CreateDeclarationActivityViewModel:ViewModel() {
@@ -44,6 +45,7 @@ class CreateDeclarationActivityViewModel:ViewModel() {
     var photoUrl6: Uri? = null
     var photoUrl7: Uri? = null
     var photoUrl8: Uri? = null
+    var regex = "[A-Za-zА-Яа-яА-Яа-я]"
     var linkArray = mutableListOf<String>()
     @ObsoleteCoroutinesApi
     @RequiresApi(Build.VERSION_CODES.P)
@@ -186,191 +188,125 @@ class CreateDeclarationActivityViewModel:ViewModel() {
                           photoView5: ImageView, photoView6: ImageView,
                           photoView7: ImageView, photoView8: ImageView,
                           activity: CreateDeclarationActivity,
-                          listPhotoLinks:MutableList<Uri>
+                          listPhotoLinks:MutableList<Uri>,
+                          errorTextView: TextView,progressBar: ProgressBar
     ){
-        for (i in 0 until listPhotoLinks.size){
-            var uri = listPhotoLinks[i]
-            val filename = UUID.randomUUID().toString()
-            val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-            uri?.let {
-                ref.putFile(it)
-                    .addOnSuccessListener {
-                        Log.d(ControlsProviderService.TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
-                        ref.downloadUrl.addOnSuccessListener {
-                            Log.d(ControlsProviderService.TAG, "File Location: $it")
-                            linkArray.add(it.toString())
-                            if(i == listPhotoLinks.size-1){
-                                val filenameNew= UUID.randomUUID().toString()
-                                val docRef = db.collection("declarations").document(filenameNew)
-                                docRef.set(hashMapOf(
-                                    "description" to description,
-                                    "id" to userID,
-                                    "price" to price,
-                                    "model" to model,
-                                    "material" to material,
-                                    "size" to size,
-                                    "sizeRegion" to sizeRegion,
-                                    "sizeLength" to sizeLength,
-                                    "sizeWidth" to  sizeWidth,
-                                    "photoArray" to linkArray
-                                )).addOnCompleteListener {
-                                    val intent = Intent(activity, BottomNavBarActivity::class.java)
-                                    intent.putExtra("id", userID)
-                                    activity.finish()
-                                    activity.startActivity(intent)
+        if(listOfPhotoNumbers.size>0 && size != "0"
+                && sizeLength != "0" && sizeWidth != "0"
+                && model != "" && material != ""
+                && description != "" && price != ""
+                && areContains(price)){
+            progressBar.visibility = View.VISIBLE
+            for (i in 0 until listPhotoLinks.size){
+                linkArray.add("it.toString()")
+            }
+            for (i in 0 until listPhotoLinks.size){
+                var uri = listPhotoLinks[i]
+                val filename = UUID.randomUUID().toString()
+                val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+                uri?.let {
+                    ref.putFile(it)
+                            .addOnSuccessListener {
+                                Log.d(ControlsProviderService.TAG, "Successfully uploaded image: ${it.metadata?.path}")
+                                ref.downloadUrl.addOnSuccessListener {
+                                    Log.d(ControlsProviderService.TAG, "File Location: $it")
+                                    linkArray[i] = it.toString()
+                                    if(i == listPhotoLinks.size-1){
+                                        val filenameNew= UUID.randomUUID().toString()
+                                        val docRef = db.collection("declarations").document(filenameNew)
+                                        docRef.set(hashMapOf(
+                                                "description" to description,
+                                                "id" to userID,
+                                                "price" to price,
+                                                "model" to model,
+                                                "material" to material,
+                                                "size" to size,
+                                                "sizeRegion" to sizeRegion,
+                                                "sizeLength" to sizeLength,
+                                                "sizeWidth" to  sizeWidth,
+                                                "photoArray" to linkArray,
+                                                "productId" to filenameNew
+                                        )).addOnCompleteListener {
+                                            val intent = Intent(activity, BottomNavBarActivity::class.java)
+                                            intent.putExtra("id", userID)
+                                            activity.finish()
+                                            activity.startActivity(intent)
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }
-                    .addOnFailureListener {
-                        Log.d(ControlsProviderService.TAG, "Failed to upload image to storage: ${it.message}")
-                    }
+                            .addOnFailureListener {
+                                Log.d(ControlsProviderService.TAG, "Failed to upload image to storage: ${it.message}")
+                            }
+                }
+            }
+        }else{
+            if(listOfPhotoNumbers.size == 0){
+                errorTextView.text = "Додайте хоча б одне фото."
+                errorTextView.visibility = View.VISIBLE
+            }
+            else if(size == "0"
+                    || sizeLength == "0" || sizeWidth == "0"
+                    || model == "" || material == ""
+                    || description == "" || price == ""){
+                errorTextView.text = "Всі поля мають бути заповнені."
+                errorTextView.visibility = View.VISIBLE
+            }
+            else if(!areContains(price)){
+                errorTextView.text = "Введіть корректну ціну"
+                errorTextView.visibility = View.VISIBLE
             }
         }
-//        var i = 1
-//        while(i != listOfPhotoNumbers.size+1){
-//            when(i){
-//                1 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl1?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                2 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl2?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                3 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl3?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                4 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl4?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                5 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl5?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                6 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl6?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                7 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl7?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//                8 -> {
-//                    val filename = UUID.randomUUID().toString()
-//                    val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
-//                    photoUrl8?.let {
-//                        ref.putFile(it)
-//                            .addOnSuccessListener {
-//                                linkArray.add(it.toString())
-//                                i++
-//                            }
-//                            .addOnFailureListener {
-//                                Log.d(
-//                                    ControlsProviderService.TAG,
-//                                    "Failed to upload image to storage: ${it.message}"
-//                                )
-//                            }
-//                    }
-//                }
-//
-//            }
-//        }
+
     }
+    fun initialize(productId:String,userID: String,listOfPhotoNumbers:MutableList<Int>,
+                   size:TextView,sizeRegion:TextView,
+                   sizeLength:TextView,sizeWidth:TextView,
+                   model:TextInputEditText,material:TextInputEditText,
+                   description:TextView,price:TextInputEditText,
+                   photoView1: ImageView, photoView2: ImageView,
+                   photoView3: ImageView, photoView4: ImageView,
+                   photoView5: ImageView, photoView6: ImageView,
+                   photoView7: ImageView, photoView8: ImageView,
+                   cameraView:ImageView){
+        db.collection("declarations").document(productId)
+            .get()
+            .addOnSuccessListener { result ->
+                price.setText(result!!.data!!["price"] as String)
+                model.setText(result!!.data!!["model"] as String)
+                material.setText(result!!.data!!["material"] as String)
+                size.setText(result!!.data!!["size"] as String)
+//                model.text = result!!.data!!["model"] as Editable
+//                material.text = result!!.data!!["material"] as Editable
+//                size.text = result!!.data!!["size"] as Editable
+                sizeRegion.text = result!!.data!!["sizeRegion"] as String
+                sizeLength.text = result!!.data!!["sizeLength"] as String
+                sizeWidth.text = result!!.data!!["sizeWidth"] as String
+                description.text = result!!.data!!["description"] as String
+                var links = result!!.data!!["photoArray"] as MutableList<String>
+                var imageViewList = mutableListOf<ImageView>(photoView1,photoView2,photoView3,photoView4,photoView5,photoView6,photoView7,photoView8)
+                for (i in 0 until links.size){
+                    TRANSPARENT.also { imageViewList[i].background = it.toDrawable() }
+                    cameraView.visibility = View.INVISIBLE
+                    Picasso
+                        .get()
+                        .load(links[i].toUri())
+                        .fit()
+                        .centerInside()
+                        .transform(RoundedCornersTransformation(50, 0))
+                        .into(imageViewList[i])
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+    }
+
+    private fun areContains(mytext: String):Boolean{
+        return Regex(regex).find(mytext) == null
+    }
+
 
 
 }

@@ -48,8 +48,11 @@ class LoginFragment: Fragment() {
         viewModel = ViewModelProvider(this).get(LoginFragmentViewModel::class.java)
         binding.loginViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
-//        auth.signOut()
+        auth.signOut()
         binding.telephoneLoginButton.setOnClickListener {
+            LoginManager.getInstance().logOut()
+            mGoogleSignInClient.signOut()
+            auth.signOut()
             viewModel.toVerification(requireActivity() as MainActivity)
         }
         binding.facebookLoginButton.setOnClickListener {

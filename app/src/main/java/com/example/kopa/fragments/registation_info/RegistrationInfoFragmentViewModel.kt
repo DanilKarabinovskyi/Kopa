@@ -34,7 +34,7 @@ class RegistrationInfoFragmentViewModel(userId:String):ViewModel() {
     var b: Boolean = Pattern.matches(pattern, "aaaaab")
     var userID = userId
     lateinit var docRef: DocumentReference
-    fun splitName(name: TextView, surname: TextView, city: TextView,telephone:TextView){
+    fun splitName(name: TextView, surname: TextView, city: TextView,telephone:TextView,telephoneNumber:String){
 
         docRef = db.collection("users").document(userID)
             docRef.get().addOnCompleteListener { firstTask ->
@@ -50,8 +50,17 @@ class RegistrationInfoFragmentViewModel(userId:String):ViewModel() {
                         surname.text = surnameUser
                         city.text = cityUser
                         telephone.text = telephoneUser
+                    }else{
+//                        if(user!!.displayName != " "){
+                            if(userID != "telephoneNumber"){
+                            var array = user!!.displayName!!.split(" ")
+                            name.text = array[0]
+                            if(array.size>1){
+                                surname.text = array[1]
+                            }
+                        }
+                        telephone.text = telephoneNumber
                     }
-
                 } else {
 
                 }
@@ -76,15 +85,18 @@ class RegistrationInfoFragmentViewModel(userId:String):ViewModel() {
             if(userID == "telephoneNumber"){
                 userID = telephone.text.toString()
             }
-            val profileUpdates = userProfileChangeRequest {
-                displayName = telephone.text.toString()
-            }
-            user!!.updateProfile(profileUpdates)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            Log.d(ControlsProviderService.TAG, "User profile updated.")
-                        }
-                    }
+//            val profileUpdates = userProfileChangeRequest {
+//                displayName = telephone.text.toString()
+//            }
+//            if(user != null){
+//                user!!.updateProfile(profileUpdates)
+//                        .addOnCompleteListener { task ->
+//                            if (task.isSuccessful) {
+//                                Log.d(ControlsProviderService.TAG, "User profile updated.")
+//                            }
+//                        }
+//            }
+
             docRef = db.collection("users").document(userID)
             docRef.set(
                 hashMapOf(

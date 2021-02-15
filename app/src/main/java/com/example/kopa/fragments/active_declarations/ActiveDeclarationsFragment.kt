@@ -1,5 +1,6 @@
 package com.example.kopa.fragments.active_declarations
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kopa.BottomNavBarActivity
+import com.example.kopa.DetailActivity
 import com.example.kopa.R
 import com.example.kopa.databinding.ActiveDeclarationsLayoutBinding
 import com.example.kopa.fragments.adapters.DeclarationListener
@@ -31,9 +33,15 @@ class ActiveDeclarationsFragment(userId: String): Fragment() {
                 container,
                 false)
         adapter = DeclarationsAdapter(
-                DeclarationListener { lessonName ->
-
-                },"sold")
+                DeclarationListener { productId,userId,description ->
+                    val activity = requireActivity() as BottomNavBarActivity
+                    val intent = Intent(activity, DetailActivity::class.java)
+                    intent.putExtra("productId", productId)
+                    intent.putExtra("id", userID)
+                    intent.putExtra("type", "active")
+                    activity.finish()
+                    activity.startActivity(intent)
+                },"active")
         viewModel = ViewModelProvider(this).get(ActiveDeclarationsFragmentViewModel::class.java)
         binding.activeDeclarationsViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

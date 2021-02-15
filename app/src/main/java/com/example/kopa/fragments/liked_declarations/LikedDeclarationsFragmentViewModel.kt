@@ -15,10 +15,8 @@ class LikedDeclarationsFragmentViewModel:ViewModel() {
     fun getList(adapter: DeclarationsAdapter, userID:String){
         val user = Firebase.auth.currentUser
 
-        db.collection("declarations")
-                .whereEqualTo("id", userID)
-                .whereEqualTo("selled", true)
-                .get()
+        val docRefLiked = db.collection("liked_users_declarations").document(userID).collection("liked_declarations")
+        docRefLiked.get()
                 .addOnSuccessListener { result ->
                     declarations = mutableListOf()
                     lateinit var singleDeclaration: Declaration
@@ -36,6 +34,7 @@ class LikedDeclarationsFragmentViewModel:ViewModel() {
                             false,
                             false,
                             document.data["description"] as String,
+                            document.data["productId"] as String,
                             document.data["photoArray"] as MutableList<String>)
                         declarations.add(singleDeclaration)
                     }

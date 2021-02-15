@@ -47,8 +47,8 @@ class MyDeclarationsFragment(userId:String):Fragment() {
         var secondFragment = ArchivedDeclarationsFragment(userID)
 
         viewPager.adapter = pagerAdapter
-        pagerAdapter.addFragment(firstFragment,"Вантажники")
-        pagerAdapter.addFragment(secondFragment,"Перевізники")
+        pagerAdapter.addFragment(firstFragment,"Активні")
+        pagerAdapter.addFragment(secondFragment,"Архів")
         binding.tabs.setupWithViewPager(viewPager)
         pagerAdapter.notifyDataSetChanged()
         return binding.root

@@ -72,6 +72,7 @@ class NumberPickerDialog(textViewEditText: TextInputEditText,dialogType:String,t
             }
         }
         builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+
             if(type == "1"){
                 textInput.setText(" ${displayedValues[numberPicker.value]}")
             }else if(type =="2"){
@@ -80,6 +81,7 @@ class NumberPickerDialog(textViewEditText: TextInputEditText,dialogType:String,t
 
         })
         builder.setNegativeButton("CANCEL", DialogInterface.OnClickListener { dialog, which ->
+
         })
         builder.setView(numberPicker)
         return builder.create()

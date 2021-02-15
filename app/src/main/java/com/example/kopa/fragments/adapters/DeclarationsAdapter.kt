@@ -53,7 +53,7 @@ class DeclarationsAdapter(val clickListener: DeclarationListener,type:String):
             else if(item.liked && typeAdapter == "like"){
                 binding.likeImageView.setImageResource(R.drawable.ic_heart_white)
             }else{
-                binding.likeImageView.visibility = View.INVISIBLE
+//                binding.likeImageView.visibility = View.INVISIBLE
             }
             binding.textSizeCountry.text = item.sizeRegion
             binding.price.text = item.price
@@ -84,6 +84,6 @@ class DeadlinesDiffCallback: DiffUtil.ItemCallback<Declaration>(){
 
 }
 
-class DeclarationListener(val clickListener: (declarationName: String) -> Unit) {
-    fun onClick(declaration: Declaration) = clickListener(declaration.id)
+class DeclarationListener(val clickListener: (productId: String,userId:String,type:String) -> Unit) {
+    fun onClick(declaration: Declaration) = clickListener(declaration.productId,declaration.id,declaration.description)
 }

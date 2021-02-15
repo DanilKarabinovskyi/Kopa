@@ -39,7 +39,8 @@ class LoginFragmentViewModel:ViewModel() {
     val user = Firebase.auth.currentUser
     val db = Firebase.firestore
     lateinit var googleId:String
-
+    lateinit var googleName:String
+    var name = ""
     fun toVerification(activity: MainActivity){
         if(user != null){
     if(user!!.displayName != ""){
@@ -56,7 +57,7 @@ class LoginFragmentViewModel:ViewModel() {
                     val manager: FragmentManager = activity.supportFragmentManager
                     val transaction: FragmentTransaction = manager.beginTransaction()
                     user!!.displayName?.let {
-                        RegistrationInfoFragment(it)
+                        RegistrationInfoFragment(it,"0")
                     }?.let {
                         transaction.replace(
                                 R.id.fragment_container, it
@@ -126,18 +127,20 @@ class LoginFragmentViewModel:ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    val profileUpdates = userProfileChangeRequest {
-                    }
                     val acct = GoogleSignIn.getLastSignedInAccount(activity)
                     if (acct != null) {
                         googleId = acct.id as String
+                        googleName = acct.displayName
                     }
-                    user!!.updateProfile(profileUpdates)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                Log.d(ControlsProviderService.TAG, "User profile updated.")
-                            }
-                        }
+//                    val profileUpdates = userProfileChangeRequest {
+//                        displayName = googleName
+//                    }
+//                    user!!.updateProfile(profileUpdates)
+//                        .addOnCompleteListener { task ->
+//                            if (task.isSuccessful) {
+//                                Log.d(ControlsProviderService.TAG, "User profile updated.")
+//                            }
+//                        }
                     val email = user!!.email
                     val docRef = email?.let {
                         db.collection("users").document(
@@ -152,7 +155,7 @@ class LoginFragmentViewModel:ViewModel() {
                                 val manager: FragmentManager = activity.supportFragmentManager
                                 val transaction: FragmentTransaction = manager.beginTransaction()
                                 googleId?.let {
-                                    RegistrationInfoFragment(it)
+                                    RegistrationInfoFragment(it,"0")
                                 }?.let {
                                     transaction.replace(
                                             R.id.fragment_container, it
@@ -217,56 +220,86 @@ class LoginFragmentViewModel:ViewModel() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
-
+                    val user = auth.currentUser
                     val request = GraphRequest.newMeRequest(
                             token
                     ) { `object`, response ->
-                        // Application code
+                        name = `object`.getString("name")
+//                        Log.d(
+//                                TAG,
+//                                "------ID : ${name}---------------------------------------"
+//                        )
+//                                            val profileUpdates = userProfileChangeRequest {
+//                        displayName = name
+//                    }
+//                    user!!.updateProfile(profileUpdates)
+//                        .addOnCompleteListener { task ->
+//                            if (task.isSuccessful) {
+//                                Log.d(ControlsProviderService.TAG, "User profile updated.")
+//                            }
+//                        }
                     }
+
                     val parameters = Bundle()
                     parameters.putString("fields", "id,name,link")
                     request.parameters = parameters
+//                    var name = parameters.getBundle("name")
                     request.executeAsync()
                     request.accessToken!!.userId
                     Log.d(
                             TAG,
                             "------ID : ${request.accessToken!!.userId}---------------------------------------"
                     )
-                    val user = auth.currentUser
+
                     val docRef = db.collection("users").document(
                             request.accessToken!!.userId
                     )
                     docRef.get().addOnCompleteListener { firstTask ->
-                        Log.d(ContentValues.TAG, "in----------------")
-                        Thread.sleep(200)
+                        Log.d(ContentValues.TAG, "${user!!.displayName}")
                         if (firstTask.isSuccessful) {
                             if(firstTask.result!!.exists()){
                                 Log.d(TAG, "signInWithCredential:success")
 
-                                if (user != null) {
-                                    Log.d(
-                                            TAG,
-                                            "number : ${user.displayName}---------------------------------------"
-                                    )
-                                }
+                                Log.d(
+                                        TAG,
+                                        "number : ${user.displayName}---------------------------------------"
+                                )
                                 val manager: FragmentManager = activity.supportFragmentManager
                                 val transaction: FragmentTransaction = manager.beginTransaction()
                                 transaction.replace(
                                         R.id.fragment_container, RegistrationInfoFragment(
-                                        request.accessToken!!.userId
+                                        request.accessToken!!.userId,"0"
                                 )
                                 )
                                 transaction.commit()
                             }else{
-                                val manager: FragmentManager = activity.supportFragmentManager
-                                val transaction: FragmentTransaction = manager.beginTransaction()
-                                transaction.replace(
-                                        R.id.fragment_container,
-                                        VerificationFragment(
-                                                request.accessToken!!.userId
-                                        )
-                                )
-                                transaction.commit()
+                                    val profileUpdates = userProfileChangeRequest {
+                                        displayName = name
+                                    }
+                                    user!!.updateProfile(profileUpdates)
+                                            .addOnCompleteListener { task ->
+                                                if (task.isSuccessful) {
+                                                    val manager: FragmentManager = activity.supportFragmentManager
+                                                    val transaction: FragmentTransaction = manager.beginTransaction()
+                                                    transaction.replace(
+                                                            R.id.fragment_container,
+                                                            VerificationFragment(
+                                                                    request.accessToken!!.userId
+                                                            )
+                                                    )
+                                                    transaction.commit()
+                                                }
+
+                                }
+//                                val manager: FragmentManager = activity.supportFragmentManager
+//                                val transaction: FragmentTransaction = manager.beginTransaction()
+//                                transaction.replace(
+//                                        R.id.fragment_container,
+//                                        VerificationFragment(
+//                                                request.accessToken!!.userId
+//                                        )
+//                                )
+//                                transaction.commit()
                             }
                         } else {
                             val manager: FragmentManager = activity.supportFragmentManager

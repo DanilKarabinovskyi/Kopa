@@ -18,7 +18,6 @@ class ActiveDeclarationsFragmentViewModel:ViewModel() {
 
         db.collection("declarations")
                 .whereEqualTo("id", userID)
-                .whereEqualTo("selled", false)
                 .get()
                 .addOnSuccessListener { result ->
                     declarations = mutableListOf()
@@ -37,6 +36,7 @@ class ActiveDeclarationsFragmentViewModel:ViewModel() {
                             false,
                             false,
                             document.data["description"] as String,
+                            document.data["productId"] as String,
                             document.data["photoArray"] as MutableList<String>)
                         declarations.add(singleDeclaration)
                     }

@@ -80,10 +80,6 @@ class ProfileFragmentViewModel:ViewModel() {
                         .centerInside()
                         .into(binding.profileImage)
                 }
-//                storageRef.child("/images/$photoUrl").downloadUrl.addOnSuccessListener {
-//
-//                }.addOnFailureListener {
-//                }
 
             } else {
 

@@ -19,11 +19,5 @@
     <style name="fab_3_rounded">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">24dp</item>
-<!--        <item name="cornerSizeBottomLeft">5dp</item>-->
-
-
-<!--        <item name="fabCradleRoundedCornerRadius">10dp</item>-->
-
-<!--        <item name="android:shape">rectangle</item>-->
     </style>
 </resources>

@@ -11,12 +11,13 @@
     <FrameLayout
         android:id="@+id/fragment_container_bar_activity"
         android:layout_width="match_parent"
-        android:layout_height="694dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="90dp"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -47,7 +48,7 @@
         </com.google.android.material.bottomappbar.BottomAppBar>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/add_element_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -60,7 +61,7 @@
 
     <include
         layout="@layout/sorting_bottom_sheet"
-        app:layout_anchor="@+id/fab"
+        app:layout_anchor="@+id/add_element_button"
         app:layout_anchorGravity="center"
         />
 
