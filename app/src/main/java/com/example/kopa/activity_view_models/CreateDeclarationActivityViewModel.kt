@@ -3,6 +3,7 @@ package com.example.kopa.activity_view_models
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Color.BLACK
 import android.graphics.Color.TRANSPARENT
 import android.net.Uri
 import android.os.Build
@@ -17,6 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
+import com.bumptech.glide.Glide
 import com.example.kopa.BottomNavBarActivity
 import com.example.kopa.CreateDeclarationActivity
 import com.example.kopa.image_slider_components.SlideModel
@@ -269,7 +271,7 @@ class CreateDeclarationActivityViewModel:ViewModel() {
                    photoView3: ImageView, photoView4: ImageView,
                    photoView5: ImageView, photoView6: ImageView,
                    photoView7: ImageView, photoView8: ImageView,
-                   cameraView:ImageView){
+                   cameraView:ImageView,activity: CreateDeclarationActivity){
         db.collection("declarations").document(productId)
             .get()
             .addOnSuccessListener { result ->
@@ -288,6 +290,7 @@ class CreateDeclarationActivityViewModel:ViewModel() {
                 var imageViewList = mutableListOf<ImageView>(photoView1,photoView2,photoView3,photoView4,photoView5,photoView6,photoView7,photoView8)
                 for (i in 0 until links.size){
                     TRANSPARENT.also { imageViewList[i].background = it.toDrawable() }
+                    TRANSPARENT.also { imageViewList[i].foreground = it.toDrawable() }
                     cameraView.visibility = View.INVISIBLE
                     Picasso
                         .get()
@@ -296,7 +299,9 @@ class CreateDeclarationActivityViewModel:ViewModel() {
                         .centerInside()
                         .transform(RoundedCornersTransformation(50, 0))
                         .into(imageViewList[i])
+
                 }
+
             }
             .addOnFailureListener { exception ->
                 Log.d(ContentValues.TAG, "Error getting documents: ", exception)

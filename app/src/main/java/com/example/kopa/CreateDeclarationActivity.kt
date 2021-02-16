@@ -46,7 +46,8 @@ class CreateDeclarationActivity: AppCompatActivity() {
                 binding.selectPhoto6,
                 binding.selectPhoto7,
                 binding.selectPhoto8,
-                binding.cameraIcon)
+                binding.cameraIcon,
+            this)
         }
         binding.backButton.setOnClickListener {
             val intent = Intent(this, BottomNavBarActivity::class.java)
